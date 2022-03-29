@@ -19,7 +19,7 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/logout', async (req, res) => {
-  logoutController.logOut()
+  logoutController.logOut(res)
   renderController.renderLogOut(res)
 })
 
@@ -34,5 +34,9 @@ router.get('/loggedin', async (req, res) => {
 router.get('/loggedin/history', async (req, res) => {
   renderController.renderHistory(res, await oAuthController.getHistory())
 })
+
+router.use('*', (req, res, next) =>
+  next(createError(500, 'Internal Server Error'))
+)
 
 export default router

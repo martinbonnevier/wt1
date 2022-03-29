@@ -3,7 +3,11 @@
  * @param res
  */
 export function renderIndex (res) {
-  res.render('index', {})
+  try {
+    res.render('index', {})
+  } catch (error) {
+    res.render('/error', { error: error.status })
+  }
 }
 
 /**
@@ -11,7 +15,11 @@ export function renderIndex (res) {
  * @param res
  */
 export function renderLogin (res) {
-  res.render('login', {})
+  try {
+    res.render('login', {})
+  } catch (error) {
+
+  }
 }
 
 /**
@@ -19,7 +27,11 @@ export function renderLogin (res) {
  * @param res
  */
 export function renderLogOut (res) {
-  res.render('logout', {})
+  try {
+    res.render('logout', {})
+  } catch (error) {
+    res.render('/error', { error: error.status })
+  }
 }
 
 /**
@@ -28,7 +40,11 @@ export function renderLogOut (res) {
  * @param gitlabAccessToken
  */
 export function renderUserData (res, gitlabAccessToken) {
-  res.render('printout', { printout: gitlabAccessToken })
+  try {
+    res.render('printout', { printout: gitlabAccessToken })
+  } catch (error) {
+    res.render('/error', { error: error.status })
+  }
 }
 
 /**
@@ -37,5 +53,9 @@ export function renderUserData (res, gitlabAccessToken) {
  * @param history
  */
 export function renderHistory (res, history) {
-  res.render('history', { gitLabHistory: history })
+  try {
+    res.render('history', { gitLabHistory: history })
+  } catch (error) {
+    res.render('/error', { error: error.status })
+  }
 }

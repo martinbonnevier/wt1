@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" class=".bg-dark.bg-gradient">
+
+<head>
+  <%- include('./partials/head'); %>
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include('./partials/header'); %>
+  </header>
+
+  <main>
+
+    <div class="jumbotron">
+
+
+      <h1 class="display-4">Oops, something went wrong...</h1>
+      <p class="lead">Status code: <%= error %></p>
+      <div class="text-center">
+        <img src="/img/no.gif" alt="shaking head" class="rounded mx-auto d-bloc">
+      </div>
+      
+    </div>
+
+  </main>
+
+  <footer>
+    <%- include('./partials/footer'); %>
+  </footer>
+
+</body>
