@@ -28,8 +28,6 @@ export function renderLogOut (res) {
  * @param gitlabAccessToken
  */
 export function renderUserData (res, gitlabAccessToken) {
-  console.log('hejhej')
-  console.log(gitlabAccessToken.username)
   res.render('printout', { printout: gitlabAccessToken })
 }
 
@@ -39,6 +37,5 @@ export function renderUserData (res, gitlabAccessToken) {
  * @param history
  */
 export function renderHistory (res, history) {
-  console.log(history)
   res.render('history', { gitLabHistory: history })
 }

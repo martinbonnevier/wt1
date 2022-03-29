@@ -15,7 +15,7 @@
   <main>
 
     <div class="jumbotron">
-      <h1 class="display-4">User</h1>
+      <h1 class="display-4">User info:</h1>
       <p class="lead"><strong>Username: </strong>
         <%= JSON.stringify(printout.username) %>
       </p>
@@ -33,7 +33,7 @@
       </p>
       <img src=<%=printout.avatar_url %> class="shadow p-3 mb-5 bg-white rounded" alt="avatar">
       </br>
-      <a class="btn btn-outline-primary" href="/loggedin/history" role="button">Get history</a>
+      <a class="btn btn-outline-primary" href="/loggedin/history" role="button">Get 101 latest <img src="img/gitlab_logo.png" alt="Gitlab logo"> actions</a>
     </div>
 
   </main>
