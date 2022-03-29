@@ -21,7 +21,7 @@ export function requestAuthorizationCode (res) {
  *
  * @param req
  */
-export async function requestAnAccessToken (req) {
+export async function requestAnAccessToken (req, res) {
   try {
     const code = req.query.code
     const state = req.query.state
@@ -42,7 +42,7 @@ export async function requestAnAccessToken (req) {
 /**
  *
  */
-export async function getHistory () {
+export async function getHistory (res) {
   try {
     console.log('history!!!')
     let pageNr = 1
@@ -70,4 +70,11 @@ export async function getHistory () {
   } catch (error) {
     res.render('/error', { error: error.status })
   }
+}
+export function logout () {
+  accesToken = "loggedout"
+  userId = ""
+}
+export function getAccessToken(){
+  return accesToken
 }

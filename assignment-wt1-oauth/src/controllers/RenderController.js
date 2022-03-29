@@ -1,13 +1,26 @@
+import * as oauthController from "./OauthController.js"
 /**
  *
  * @param res
  */
 export function renderIndex (res) {
+
   try {
-    res.render('index', {})
+    let access = oauthController.getAccessToken();
+    if(access === "loggedout"){
+      res.render('index', {})
+    } else {
+      res.render('index_loggedin', {})
+    }
+    
   } catch (error) {
     res.render('/error', { error: error.status })
   }
+  // try {
+  //   res.render('index', {})
+  // } catch (error) {
+  //   res.render('/error', { error: error.status })
+  // }
 }
 
 /**
@@ -40,7 +53,14 @@ export function renderLogOut (res) {
  * @param gitlabAccessToken
  */
 export function renderUserData (res, gitlabAccessToken) {
+
   try {
+    let access = oauthController.getAccessToken();
+    if(access !== "loggedout"){
+      res.render('/loggedin', { errprintoutor: gitlabAccessToken })
+      } else {
+        res.render('error', { error: "Logged out" })
+      }
     res.render('printout', { printout: gitlabAccessToken })
   } catch (error) {
     res.render('/error', { error: error.status })
@@ -54,8 +74,17 @@ export function renderUserData (res, gitlabAccessToken) {
  */
 export function renderHistory (res, history) {
   try {
-    res.render('history', { gitLabHistory: history })
+    let access = oauthController.getAccessToken();
+    if(access !== "loggedout"){
+      res.render('history', { gitLabHistory: history })
+    } else {
+      res.render('error', { error: "Logged out" })
+    }
+    
   } catch (error) {
     res.render('/error', { error: error.status })
   }
+}
+export function renderError(res, error) {
+  res.render('/error', { error: error.status })
 }

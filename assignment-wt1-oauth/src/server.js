@@ -29,13 +29,17 @@ app.use(
 )
 
 app.use(cors(), router)
+app.use("/", router);
 app.use((err, req, res, next) => {
   err.status = err.status || 500
+
   res.status(err.status).json({
     status: err.status,
     message: err.message
   })
+  console.log('Server', err.message)
 })
+
 
 app.set('view engine', 'ejs')
 app.listen(PORT, () => console.log('App listening on port ' + PORT))

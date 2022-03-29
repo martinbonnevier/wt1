@@ -3,6 +3,7 @@ import * as renderController from '../controllers/RenderController.js'
 import * as logoutController from '../controllers/LogoutController.js'
 import * as oAuthController from '../controllers/OauthController.js'
 import dotenv from 'dotenv'
+import createError from 'http-errors'
 
 let userId
 let accesToken
@@ -19,6 +20,7 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/logout', async (req, res) => {
+  oAuthController.logout()
   logoutController.logOut(res)
   renderController.renderLogOut(res)
 })
@@ -28,15 +30,20 @@ router.get('/login/oauth', (req, res) => {
 })
 
 router.get('/loggedin', async (req, res) => {
-  renderController.renderUserData(res, await oAuthController.requestAnAccessToken(req))
+  renderController.renderUserData(res, await oAuthController.requestAnAccessToken(req, res))
 })
 
-router.get('/loggedin/history', async (req, res) => {
-  renderController.renderHistory(res, await oAuthController.getHistory())
-})
 
-router.use('*', (req, res, next) =>
+  router.get('/loggedin/history', async (req, res) => {
+    renderController.renderHistory(res, await oAuthController.getHistory(res))
+  })
+
+
+
+router.use('*', (req, res, next, err) =>
+
   next(createError(500, 'Internal Server Error'))
+
 )
 
 export default router
