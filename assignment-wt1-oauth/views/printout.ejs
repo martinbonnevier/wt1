@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" class=".bg-dark.bg-gradient">
+
+<head>
+  <%- include('./partials/head'); %>
+
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include('./partials/header_loggedin'); %>
+  </header>
+
+  <main>
+
+    <div class="jumbotron">
+      <h1 class="display-4">User</h1>
+      <p class="lead"><strong>Username: </strong>
+        <%= JSON.stringify(printout.username) %>
+      </p>
+      <p class="lead"><strong>Name: </strong>
+        <%= JSON.stringify(printout.name) %>
+      </p>
+      <p class="lead"><strong>ID: </strong>
+        <%= JSON.stringify(printout.id) %>
+      </p>
+      <p class="lead"><strong>Email: </strong>
+        <%= JSON.stringify(printout.email) %>
+      </p>
+      <p class="lead"><strong>Last activity: </strong>
+        <%= JSON.stringify(printout.last_activity_on) %>
+      </p>
+      <img src=<%=printout.avatar_url %> class="shadow p-3 mb-5 bg-white rounded" alt="avatar">
+      </br>
+      <a class="btn btn-outline-primary" href="/loggedin/history" role="button">Get history</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <%- include('./partials/footer'); %>
+  </footer>
+
+</body>
+
+
+</html>

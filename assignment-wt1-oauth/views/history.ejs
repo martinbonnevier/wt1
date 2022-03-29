@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <%- include('./partials/head'); %>
+
+</head>
+
+<body class="container bg-dark.bg-gradient">
+
+  <header>
+    <%- include('./partials/header_loggedin'); %>
+  </header>
+
+  <main>
+
+    <div class="jumbotron .bg-light.bg-gradient">
+
+
+      <h1 class="display-4">History</h1>
+
+      <table class="table table-striped table-dark">
+        <thead class="thead-light">
+          <tr>
+            <th>Nr</th>
+            <th>Action name</th>
+            <th>Target title</th>
+            <th>Created at</th>
+            <th>Target type</th>
+          </tr>
+        </thead>
+        <% for(var i=0; i < gitLabHistory.length; i++) { %>
+          <tr>
+            <td>
+              <%= i+1 %>
+            </td>
+            <td>
+              <%= gitLabHistory[i].action_name %>
+            </td>
+            <td>
+              <%= gitLabHistory[i].target_title %>
+            </td>
+            <td>
+              <%= gitLabHistory[i].created_at %>
+            </td>
+            <td>
+              <%= gitLabHistory[i].target_type %>
+            </td>
+          </tr>
+          <% } %>
+      </table>
+
+
+
+
+
+      </br>
+      <a class="btn btn-outline-primary" href="/loggedin/history" role="button">Get history</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <%- include('./partials/footer'); %>
+  </footer>
+
+</body>
+
+
+</html>
