@@ -7,9 +7,8 @@ import axios from 'axios'
  */
 export async function logOut (req, res) {
   try{
-    console.log("logout1")
+    req.session.destroy()
   } catch (error) {
-    console.log(error)
     res.render('error', { error: error })
   }
 }
