@@ -1,57 +1,70 @@
 import axios from 'axios'
 import * as randomState from '../utils/randomState.js'
-let accesToken
-let userId
+// let accesToken = ""
+// let userId
 
 /**
  * Function for requesting an authorization code from GitLab.
  *
+ * @param req
  * @param res
+ * @param next
  */
-export function requestAuthorizationCode (res) {
+export function requestAuthorizationCode (req, res, next) {
   try {
-    const state = randomState.generateState()
-    res.redirect(`https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.GITLAB_APPLICATION_ID}&redirect_uri=${process.env.redirect_uri}&response_type=code&state=${state}&scope=email+profile+read_api&client_secret=${process.env.GITLAB_SECRET}`)
+    console.log('requestAuthorizationCode' + req.query.code)
+    req.session.state = randomState.generateState()
+
+    res.redirect(`https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.GITLAB_APPLICATION_ID}&redirect_uri=${process.env.redirect_uri}&response_type=code&state=${req.session.state}&scope=email+profile+read_api&client_secret=${process.env.GITLAB_SECRET}`)
+
+    // requestAnAccessToken(req, res, next)
   } catch (error) {
-    res.render('/error', { error: error.status })
+    res.render('error', { error: error })
   }
 }
 
 /**
  *
  * @param req
+ * @param res
  */
 export async function requestAnAccessToken (req, res) {
   try {
+    console.log('requestAnAccessToken')
     const code = req.query.code
-    const state = req.query.state
-    const parameters = `client_id=${process.env.GITLAB_APPLICATION_ID}&client_secret=${process.env.GITLAB_SECRET}&code=${code}&grant_type=authorization_code&redirect_uri=${process.env.redirect_uri}`
+    console.log(code)
+    req.session.code = code
+    const parameters = `client_id=${process.env.GITLAB_APPLICATION_ID}&client_secret=${process.env.GITLAB_SECRET}&code=${req.session.code}&grant_type=authorization_code&redirect_uri=${process.env.redirect_uri}`
     const reqUri = 'https://gitlab.lnu.se/oauth/token?' + parameters
     const gitlabResponse = await axios.post(reqUri)
     const gitlabAccessToken = await axios.get('https://gitlab.lnu.se/api/v4/user' + '?access_token=' + gitlabResponse.data.access_token)
-
-    accesToken = gitlabResponse.data.access_token
-    userId = gitlabAccessToken.data.id
-    accesToken = gitlabResponse.data.access_token
-    return gitlabAccessToken.data
+    req.session.userId = gitlabAccessToken.data.id
+    req.session.userData = gitlabAccessToken.data
+    req.session.accesToken = gitlabResponse.data.access_token
+    req.session.loggedin = true
   } catch (error) {
-    res.render('/error', { error: error.status })
+    res.render('error', { error: error.status })
   }
 }
 
 /**
  *
+ * @param req
+ * @param res
+ * @param next
  */
-export async function getHistory (res) {
+export async function getHistory (req, res, next) {
   try {
     console.log('history!!!')
+    console.log(req.session.userId)
+    console.log(req.session.loggedin)
     let pageNr = 1
 
     const historyData = []
     for (let i = 0; i < 6; i++) {
-      historyData.push(await axios.get(`https://gitlab.lnu.se/api/v4/users/${userId}/events?per_page=20&page=${pageNr}`, {
+      historyData.push(await axios.get(`https://gitlab.lnu.se/api/v4/users/${req.session.userId}/events?per_page=20&page=${pageNr}`, {
         headers: {
-          Authorization: `Bearer ${accesToken}`
+          Authorization: `Bearer ${req.session.accesToken}`
         }
       }))
       pageNr++
@@ -68,13 +81,13 @@ export async function getHistory (res) {
     }
     return latestActions
   } catch (error) {
-    res.render('/error', { error: error.status })
+    res.render('error', { error: error })
   }
 }
-export function logout () {
-  accesToken = "loggedout"
-  userId = ""
-}
-export function getAccessToken(){
-  return accesToken
-}
+// export function logout () {
+
+// }
+
+// export function getAccessToken(){
+//   return accesToken
+// }

@@ -1,26 +1,14 @@
-import * as oauthController from "./OauthController.js"
+import * as oauthController from './OauthController.js'
 /**
  *
  * @param res
  */
 export function renderIndex (res) {
-
   try {
-    let access = oauthController.getAccessToken();
-    if(access === "loggedout"){
-      res.render('index', {})
-    } else {
-      res.render('index_loggedin', {})
-    }
-    
+    res.render('index', {})
   } catch (error) {
-    res.render('/error', { error: error.status })
+    res.render('error', { error: error.status })
   }
-  // try {
-  //   res.render('index', {})
-  // } catch (error) {
-  //   res.render('/error', { error: error.status })
-  // }
 }
 
 /**
@@ -43,48 +31,75 @@ export function renderLogOut (res) {
   try {
     res.render('logout', {})
   } catch (error) {
-    res.render('/error', { error: error.status })
+    res.render('error', { error: error })
   }
 }
 
 /**
  *
+ * @param req
  * @param res
  * @param gitlabAccessToken
  */
-export function renderUserData (res, gitlabAccessToken) {
-
+export function renderUserData (req, res) {
   try {
-    let access = oauthController.getAccessToken();
-    if(access !== "loggedout"){
-      res.render('/loggedin', { errprintoutor: gitlabAccessToken })
-      } else {
-        res.render('error', { error: "Logged out" })
-      }
-    res.render('printout', { printout: gitlabAccessToken })
+    console.log('I render 1')
+    // if(req.session.loggedin === true){
+    // console.log(req.session.userData)
+    const userData = req.session.userData
+    console.log(userData.name)
+    console.log(res.render('printout', { printout: userData }))
+    res.render('printout', { printout: userData })
+    // }
+    console.log('I render 2')
+    // else
+    // res.render('login', {})
   } catch (error) {
-    res.render('/error', { error: error.status })
+    res.render('error', { error: error })
   }
 }
 
+export function renderUserDataLoggedIn (req, res) {
+  try {
+    console.log('klägg1')
+    // if(req.session.loggedin === true){
+    // console.log(req.session.userData)
+    const userData = req.session.userData
+    console.log(userData.name)
+    console.log(res.render('printout', { printout: userData }))
+    res.render('printout', { printout: userData })
+    // }
+    console.log('klägg2')
+    // else
+    // res.render('login', {})
+  } catch (error) {
+    res.render('error', { error: error })
+  }
+}
+/**
+ *
+ * @param req
+ * @param res
+ * @param history
+ * @param next
+ */
+export function renderHistory (req, res, history, next) {
+  try {
+    // if(req.session.loggedin === true){
+    res.render('history', { gitLabHistory: history })
+    // }
+    // else{
+    res.render('login', {})
+    // }
+  } catch (error) {
+    res.render('error', { error: error })
+  }
+}
 /**
  *
  * @param res
- * @param history
+ * @param error
  */
-export function renderHistory (res, history) {
-  try {
-    let access = oauthController.getAccessToken();
-    if(access !== "loggedout"){
-      res.render('history', { gitLabHistory: history })
-    } else {
-      res.render('error', { error: "Logged out" })
-    }
-    
-  } catch (error) {
-    res.render('/error', { error: error.status })
-  }
-}
-export function renderError(res, error) {
-  res.render('/error', { error: error.status })
+export function renderError (res, error) {
+  res.render('error', { error: error })
 }
