@@ -50,9 +50,9 @@ const sessionOptions = {
     sameSite: 'lax'
   }
 }
-
-app.use(session(sessionOptions))
 app.set('trust proxy', 1) // trust first proxy
+app.use(session(sessionOptions))
+
 // sessionOptions.cookie.secure = true // serve secure cookies
 
 app.set('view engine', 'ejs')

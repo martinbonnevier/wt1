@@ -26,20 +26,15 @@ router.get('/logout', async (req, res) => {
 
 router.get('/login/oauth', (req, res, next) => {
   oAuthController.requestAuthorizationCode(req, res, next)
-
 })
 
 router.get('/loggedin', async (req, res) => {
-
   await oAuthController.requestAnAccessToken(req, res)
   renderController.renderUserData(req, res)
-
 })
 
-
-
 router.get('/user', (req, res) => {
-  console.log("Trying....")
+  console.log('Trying....')
   renderController.renderUserDataLoggedIn(req, res)
 })
 

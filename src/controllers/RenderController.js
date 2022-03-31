@@ -4,7 +4,6 @@ import * as oauthController from './OauthController.js'
  * @param res
  */
 export function renderIndex (res) {
-  
   try {
     res.render('index', {})
   } catch (error) {
@@ -45,32 +44,35 @@ export function renderLogOut (res) {
 export function renderUserData (req, res) {
   console.log(res.req.session.state)
   try {
-    if(res.req.session.state === req.session.state){
-      console.log("State ok!")
+    if (res.req.session.state === req.session.state) {
+      console.log('State ok!')
       const userData = req.session.userData
       console.log(userData.name)
       res.render('printout', { printout: userData })
     } else {
-      res.render('error', { error: "Wrong state." })
+      res.render('error', { error: 'Wrong state.' })
     }
-
   } catch (error) {
     res.render('error', { error: error })
   }
 }
 
+/**
+ *
+ * @param req
+ * @param res
+ */
 export function renderUserDataLoggedIn (req, res) {
   console.log(res.req.session.state)
   try {
-    if(res.req.session.state === req.session.state){
-      console.log("State ok i renderUserDataLoggedIn!")
+    if (res.req.session.state === req.session.state) {
+      console.log('State ok i renderUserDataLoggedIn!')
       const userData = req.session.userData
       console.log(userData.name)
       res.render('printout', { printout: userData })
     } else {
-      res.render('error', { error: "Wrong state." })
+      res.render('error', { error: 'Wrong state.' })
     }
-
   } catch (error) {
     res.render('error', { error: error })
   }
@@ -83,16 +85,15 @@ export function renderUserDataLoggedIn (req, res) {
  * @param next
  */
 export function renderHistory (req, res, history, next) {
-  console.log("------------------")
+  console.log('------------------')
   console.log(res.req.session.state)
-  console.log("------------------")
+  console.log('------------------')
   try {
-    if(res.req.session.state === req.session.state){
+    if (res.req.session.state === req.session.state) {
       res.render('history', { gitLabHistory: history })
     } else {
-      res.render('error', { error: "Wrong state." })
+      res.render('error', { error: 'Wrong state.' })
     }
-    
   } catch (error) {
     res.render('error', { error: error })
   }

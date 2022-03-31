@@ -74,4 +74,3 @@ export async function getHistory (req, res, next) {
     res.render('error', { error: error })
   }
 }
-
