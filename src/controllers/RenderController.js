@@ -1,7 +1,7 @@
-import * as oauthController from './OauthController.js'
 /**
+ * Function for rendering index page.
  *
- * @param res
+ * @param {object} res - Express response object.
  */
 export function renderIndex (res) {
   try {
@@ -12,8 +12,9 @@ export function renderIndex (res) {
 }
 
 /**
+ * Function for rendering login page.
  *
- * @param res
+ * @param {object} res - Express response object.
  */
 export function renderLogin (res) {
   try {
@@ -24,8 +25,9 @@ export function renderLogin (res) {
 }
 
 /**
+ * Function for rendering logout page.
  *
- * @param res
+ * @param {object} res - Express response object.
  */
 export function renderLogOut (res) {
   try {
@@ -36,18 +38,16 @@ export function renderLogOut (res) {
 }
 
 /**
+ * Function for rendering user info page.
  *
- * @param req
- * @param res
- * @param gitlabAccessToken
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {object} gitlabAccessToken - GitLab access token.
  */
 export function renderUserData (req, res) {
-  console.log(res.req.session.state)
   try {
     if (res.req.session.state === req.session.state) {
-      console.log('State ok!')
       const userData = req.session.userData
-      console.log(userData.name)
       res.render('printout', { printout: userData })
     } else {
       res.render('error', { error: 'Wrong state.' })
@@ -58,17 +58,15 @@ export function renderUserData (req, res) {
 }
 
 /**
+ * Function for rendering user info page.
  *
- * @param req
- * @param res
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
  */
 export function renderUserDataLoggedIn (req, res) {
-  console.log(res.req.session.state)
   try {
     if (res.req.session.state === req.session.state) {
-      console.log('State ok i renderUserDataLoggedIn!')
       const userData = req.session.userData
-      console.log(userData.name)
       res.render('printout', { printout: userData })
     } else {
       res.render('error', { error: 'Wrong state.' })
@@ -78,16 +76,14 @@ export function renderUserDataLoggedIn (req, res) {
   }
 }
 /**
+ * Function for rendering user history page.
  *
- * @param req
- * @param res
- * @param history
- * @param next
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Array} history - Array containing the latest 101 GitLab actions.
+ * @param {Function} next - Express next middleware function.
  */
 export function renderHistory (req, res, history, next) {
-  console.log('------------------')
-  console.log(res.req.session.state)
-  console.log('------------------')
   try {
     if (res.req.session.state === req.session.state) {
       res.render('history', { gitLabHistory: history })
@@ -99,9 +95,10 @@ export function renderHistory (req, res, history, next) {
   }
 }
 /**
+ * Function for rendering error page.
  *
- * @param res
- * @param error
+ * @param {object} res - Express response object.
+ * @param {object} error - Error object.
  */
 export function renderError (res, error) {
   res.render('error', { error: error })

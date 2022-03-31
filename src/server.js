@@ -36,7 +36,6 @@ app.use((err, req, res, next) => {
     status: err.status,
     message: err.message
   })
-  console.log('Server', err.message)
 })
 // Setup and use session middleware (https://github.com/expressjs/session).
 const sessionOptions = {

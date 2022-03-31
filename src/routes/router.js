@@ -5,9 +5,6 @@ import * as oAuthController from '../controllers/OauthController.js'
 import dotenv from 'dotenv'
 import createError from 'http-errors'
 
-let userId
-let accesToken
-
 dotenv.config()
 const router = express.Router()
 
@@ -34,7 +31,6 @@ router.get('/loggedin', async (req, res) => {
 })
 
 router.get('/user', (req, res) => {
-  console.log('Trying....')
   renderController.renderUserDataLoggedIn(req, res)
 })
 

@@ -4,9 +4,9 @@ import * as randomState from '../utils/randomState.js'
 /**
  * Function for requesting an authorization code from GitLab.
  *
- * @param req
- * @param res
- * @param next
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
  */
 export function requestAuthorizationCode (req, res, next) {
   try {
@@ -18,9 +18,10 @@ export function requestAuthorizationCode (req, res, next) {
 }
 
 /**
+ * Function for requesting an access token from GitLab.
  *
- * @param req
- * @param res
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
  */
 export async function requestAnAccessToken (req, res) {
   try {
@@ -41,10 +42,11 @@ export async function requestAnAccessToken (req, res) {
 }
 
 /**
+ * Function for reurning an array containing the 101 latest GitLab actions.
  *
- * @param req
- * @param res
- * @param next
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
  */
 export async function getHistory (req, res, next) {
   try {
