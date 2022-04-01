@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@lnu/eslint-config": "^1.1.4",
+    "eslint": "^7.0.0",
     "nodemon": "^2.0.15"
   },
   "eslintConfig": {

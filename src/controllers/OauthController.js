@@ -30,10 +30,9 @@ export async function requestAnAccessToken (req, res) {
     const parameters = `client_id=${process.env.GITLAB_APPLICATION_ID}&client_secret=${process.env.GITLAB_SECRET}&code=${req.session.code}&grant_type=authorization_code&redirect_uri=${process.env.redirect_uri}`
     const reqUri = 'https://gitlab.lnu.se/oauth/token?' + parameters
     const gitlabResponse = await axios.post(reqUri)
-    const gitlabAccessToken = await axios.get('https://gitlab.lnu.se/api/v4/user' + '?access_token=' + gitlabResponse.data.access_token)
-
-    req.session.userId = gitlabAccessToken.data.id
-    req.session.userData = gitlabAccessToken.data
+    const gitLabUserData = await axios.get('https://gitlab.lnu.se/api/v4/user' + '?access_token=' + gitlabResponse.data.access_token)
+    req.session.userId = gitLabUserData.data.id
+    req.session.userData = gitLabUserData.data
     req.session.accesToken = gitlabResponse.data.access_token
     req.session.loggedin = true
   } catch (error) {
@@ -71,6 +70,7 @@ export async function getHistory (req, res, next) {
         }
       }
     }
+    console.log(latestActions.length)
     return latestActions
   } catch (error) {
     res.render('error', { error: error })

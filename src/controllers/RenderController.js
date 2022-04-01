@@ -42,7 +42,6 @@ export function renderLogOut (res) {
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
- * @param {object} gitlabAccessToken - GitLab access token.
  */
 export function renderUserData (req, res) {
   try {
